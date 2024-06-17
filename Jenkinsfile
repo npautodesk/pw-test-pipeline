@@ -1,5 +1,13 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'mcr.microsoft.com/playwright:latest'
+            args '-u root' // to run as root and install packages if needed
+        }
+    }
+    environment {
+        CI = 'true' // Setting the CI environment variable
+    }
 
     stages {
         stage('Install Dependencies') {
