@@ -1,31 +1,51 @@
 pipeline {
-    agent {
-        docker {
-            image 'mcr.microsoft.com/playwright:latest'
-            args '-u root' // to run as root and install packages if needed
-        }
-    }
+    agent any
+
     environment {
         CI = 'true' // Setting the CI environment variable
     }
 
     stages {
+        stage('Checkout') {
+            steps {
+                // Checkout the source code from the repository
+                git url: 'https://github.com/ni3pandharpatte/pw-del-me-repo.git', branch: 'main'
+            }
+        }
+        stage('Install Node.js') {
+            steps {
+                // Install Node.js if it's not already installed
+                sh 'curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -'
+                sh 'sudo apt-get install -y nodejs'
+            }
+        }
         stage('Install Dependencies') {
             steps {
-                sh 'npm ci' // Clean install npm dependencies
+                // Install npm dependencies
+                sh 'npm ci'
+            }
+        }
+        stage('Compile TypeScript') {
+            steps {
+                // Compile TypeScript to JavaScript
+                sh 'npx tsc'
             }
         }
         stage('Run Playwright Tests') {
             steps {
-                sh 'npx playwright install' // Install the Playwright browsers
-                script {
-                    def items = ['one', 'two', 'three']
-                    items.each { item ->
-                        echo "suite: ${item}"
-                        sh 'npx playwright test' // Run the Playwright tests
-                    }
-                }
+                // Install the Playwright browsers
+                sh 'npx playwright install'
+                // Run the Playwright tests
+                sh 'npx playwright test'
             }
+        }
+    }
+
+    post {
+        always {
+            // Archive test results or perform any cleanup here
+            archiveArtifacts artifacts: 'test-results/**', allowEmptyArchive: true
+            junit 'test-results/**/*.xml' // Adjust this if you have junit reports
         }
     }
 }
