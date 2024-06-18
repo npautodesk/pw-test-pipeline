@@ -4,7 +4,7 @@ pipeline {
       stage('Checkout') {
             steps {
                 // Clone the repository
-                git 'https://github.com/npautodesk/pw-test-pipeline.git' // Replace with your repo URL
+                git branch: 'main', url: 'https://github.com/npautodesk/pw-test-pipeline.git'
             }
       }
       stage('e2e-tests') {
