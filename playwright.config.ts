@@ -36,18 +36,24 @@ export default defineConfig({
     {
       name: 'chromium',
       use: {
-        channel: 'chrome',
+        browserName: 'chromium'
       },
       // use: { ...devices['Desktop Chrome'] },
     },
 
     {
       name: 'firefox',
+      use:{
+        browserName: 'firefox'
+      }
       // use: { ...devices['Desktop Firefox'] },
     },
 
     {
       name: 'webkit',
+      use: {
+        browserName: 'webkit'
+      }
       // use: { ...devices['Desktop Safari'] },
     },
 
