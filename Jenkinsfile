@@ -1,5 +1,7 @@
 pipeline {
    agent any
+
+   tools {nodejs "nodejs"}
    // agent { docker { image 'mcr.microsoft.com/playwright:v1.44.1-jammy' } }
    stages {
       stage('Checkout') {
