@@ -8,11 +8,11 @@ pipeline {
             git branch: 'main', url: 'https://github.com/npautodesk/pw-test-pipeline.git'
             }
       }
-   // stage('e2e-tests') {
-   //    steps {
-   //       sh 'npm ci'
-   //       sh 'npx playwright test'
-   //    }
-   // }
+      stage('e2e-tests') {
+         steps {
+            sh 'npm ci'
+            sh 'npx playwright test'
+         }
+      }
    }
 }
