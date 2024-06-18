@@ -12,6 +12,7 @@ pipeline {
       }
       stage('e2e-tests') {
          steps {
+            sh 'su - jenkins -s /bin/bash'
             sh 'npx playwright install-deps'
             sh 'npm ci'
             sh 'npx playwright test'
